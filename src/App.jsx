@@ -1,17 +1,18 @@
 // import "./styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Table } from "react-bootstrap";
-import Notes from "./Notes";
+import React from "react";
 
 export default function App() {
-  const data = [
+  let data = [
     {
       course: "Art 5th",
       grade: "75",
       zeros: 0,
       missing_assignments: 0,
       last_access: "03/03/2021",
-      latest_submission: null
+      latest_submission: null,
+      note: null
     },
     {
       course: "COUNSELOR EL",
@@ -19,7 +20,8 @@ export default function App() {
       zeros: 0,
       missing_assignments: 0,
       last_access: "03/03/2021",
-      latest_submission: null
+      latest_submission: null,
+      note: null
     },
     {
       course: "ELA",
@@ -27,7 +29,8 @@ export default function App() {
       zeros: "4(show)",
       missing_assignments: "3(show)",
       last_access: "03/11/2021",
-      latest_submission: "03/08/2021"
+      latest_submission: "03/08/2021",
+      note: null
     },
     {
       course: "Homeroom 5th",
@@ -35,14 +38,14 @@ export default function App() {
       zeros: 0,
       missing_assignments: 0,
       last_access: "03/03/2021",
-      latest_submission: null
+      latest_submission: null,
+      note: null
     }
   ];
 
   return (
     <div className="App">
       <Container>
-        <Notes></Notes>
         <Table bordered hover>
           <thead>
             <tr>
@@ -65,13 +68,52 @@ export default function App() {
                   <td>${data.missing_assignments}</td>
                   <td>${data.last_access}</td>
                   <td>{data.latest_submission}</td>
-                  <td></td>
+                  <td>{data.note}</td>
                 </tr>
               );
             })}
           </tbody>
         </Table>
+        <Notes></Notes>
       </Container>
     </div>
   );
+}
+
+class Notes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: ""
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+
+    alert("A note was submitted: " + this.state.value);
+  }
+
+  render() {
+    return (
+      <div id="noteArea">
+        <form onSubmit={this.handleSubmit}>
+          <textarea
+            type="text"
+            id="note"
+            name="note"
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    );
+  }
 }
